@@ -4,6 +4,7 @@ using Sandbox.UI.Construct;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using deathrun.Round;
 using MinimalExample;
 
 namespace deathrun
@@ -60,7 +61,7 @@ namespace deathrun
 				}
 
 				return 0;
-			}, Round.RoundTime, f => TimeSpan.FromSeconds( f ).ToString(@"%m\:%s\.%f"));
+			}, ActiveState.RoundTime, f => TimeSpan.FromSeconds( f ).ToString(@"%m\:%s\.%f"));
 		}
 
 		public override void Tick()
@@ -80,7 +81,14 @@ namespace deathrun
 				_ => RoundStateText.Text
 			};
 
-			RoundTimeText.Text = $"{Round.RoundTime - GameLogic.Instance.Round.LastStateChange - Time.Now:n0}";
+			if ( GameLogic.Instance.Round.CurrentState == RoundState.Active )
+			{
+				RoundTimeText.Text = $"{ActiveState.RoundTime - (Time.Now - GameLogic.Instance.Round.LastStateChange):n0}";
+			}
+			else
+			{
+				RoundTimeText.Text = "";
+			}
 
 			_hudParts.ForEach( part =>
 			{

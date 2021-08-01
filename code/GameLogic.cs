@@ -4,11 +4,13 @@ using Sandbox;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using deathrun.Round;
+using MinimalExample;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
 //
-namespace MinimalExample
+namespace deathrun
 {
 
 	/// <summary>
@@ -27,7 +29,7 @@ namespace MinimalExample
 		public static GameLogic Instance => Current as GameLogic;
 
 		[Net]
-		public Round Round { get; set; }
+		public RoundManager Round { get; set; }
 
 		public GameLogic()
 		{
@@ -42,14 +44,14 @@ namespace MinimalExample
 				new MinimalHudEntity();
 			}
 
-			Round = new Round();
+			Round = new RoundManager();
 
 			if ( IsClient )
 			{
 				Log.Info( "My Gamemode Has Created Clientside!" );
 			}
 
-			Tick();
+			_ = Tick();
 		}
 
 		/// <summary>
@@ -101,8 +103,6 @@ namespace MinimalExample
 			{
 				Log.Info( spawnpoint.Transform.Position );
 			}
-
-
 		}
 
 		public override void ClientJoined( Client client )
@@ -110,13 +110,8 @@ namespace MinimalExample
 			base.ClientJoined( client );
 
 			var player = new MinimalPlayer();
-			
 			client.Pawn = player;
 
-			if ( All.OfType<Player>().Count() >= 2 && Round.CurrentState == RoundState.WaitingPlayers )
-			{
-				Round.SetState( RoundState.Preparation);
-			}
 
 			if ( Round.CurrentState < RoundState.Active )
 			{
@@ -130,69 +125,11 @@ namespace MinimalExample
 			{
 				await Task.NextPhysicsFrame();
 
-				if ( Round.CurrentState == RoundState.Preparation )
+				if ( Host.IsServer )
 				{
-					if ( Time.Now - Round.LastStateChange > 3 )
-					{
-						Round.SetState( RoundState.Active );
-					}
-				}
-				else if ( Round.CurrentState == RoundState.Active )
-				{
-					if ( Time.Now - Round.LastStateChange > Round.RoundTime )
-					{
-						Round.SetState( RoundState.Over );
-					}
-				}
-				else if ( Round.CurrentState == RoundState.Over )
-				{
-					if ( Time.Now - Round.LastStateChange > 3 )
-					{
-						Round.SetState( RoundState.Preparation );
-					}
-				}
-			}
-		}
-
-		public override void OnKilled( Client client, Entity pawn )
-		{
-			base.OnKilled( client, pawn );
-
-			if ( Round.CurrentState == RoundState.Active )
-			{
-				var alives = All.OfType<MinimalPlayer>().Where( p => p.LifeState == LifeState.Alive );
-				// there are no deaths anymore
-				if ( !alives.Any( p => p.IsDeath ) )
-				{
-					Round.SetState( RoundState.Over);
-				}
-				//no runners
-				else if ( !alives.Any( p => !p.IsDeath ) )
-				{
-					Round.SetState(RoundState.Over);
-				}
-			}
-		}
-
-		public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
-		{
-			base.ClientDisconnect( cl, reason );
-			
-			if ( Round.CurrentState == RoundState.Active )
-			{
-				var alives = All.OfType<MinimalPlayer>().Where( p => p.LifeState == LifeState.Alive );
-				// there are no deaths anymore
-				if ( !alives.Any( p => p.IsDeath ) )
-				{
-					Round.SetState( RoundState.Over);
-				}
-				//no runners
-				else if ( !alives.Any( p => !p.IsDeath ) )
-				{
-					Round.SetState(RoundState.Over);
+					Round.Think();
 				}
 			}
 		}
 	}
-
 }
