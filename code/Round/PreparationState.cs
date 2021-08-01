@@ -11,15 +11,14 @@ namespace deathrun.Round
 
 		public void OnEnter()
 		{
-			var players = Entity.All.OfType<MinimalPlayer>().OrderBy( x => Guid.NewGuid() ); 
-			var player = players.First();
-			player.IsDeath = true;
-			player.Respawn();
+			var players = Entity.All.OfType<MinimalPlayer>().OrderBy( x => Guid.NewGuid() ).ToArray();
+			
+			players[0].IsDeath = true;
+			players[0].Respawn();
 
-			GameLogic.Instance.MoveToDeath( player );
-			var runners = players.Skip ( 1 );
+			GameLogic.Instance.MoveToDeath( players[0] );
 
-			foreach ( var item in runners )
+			foreach ( var item in players[1..] )
 			{
 				item.IsDeath = false;
 				item.Respawn();

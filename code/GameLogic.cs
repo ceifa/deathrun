@@ -50,6 +50,10 @@ namespace deathrun
 			{
 				Log.Info( "My Gamemode Has Created Clientside!" );
 			}
+			else
+			{
+				Round.Switch( RoundState.WaitingPlayers );
+			}
 
 			_ = Tick();
 		}

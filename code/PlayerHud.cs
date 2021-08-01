@@ -72,7 +72,7 @@ namespace deathrun
 			TeamGroup.Classes = "team " + teamname;
 			TeamText.Text = teamname;
 
-			RoundStateText.Text = GameLogic.Instance.Round.CurrentState switch
+			RoundStateText.Text = GameLogic.Instance.Round?.CurrentState switch
 			{
 				RoundState.WaitingPlayers => "Waiting for players",
 				RoundState.Preparation => "Preparing",
@@ -81,7 +81,7 @@ namespace deathrun
 				_ => RoundStateText.Text
 			};
 
-			if ( GameLogic.Instance.Round.CurrentState == RoundState.Active )
+			if ( GameLogic.Instance.Round?.CurrentState == RoundState.Active )
 			{
 				RoundTimeText.Text = $"{ActiveState.RoundTime - (Time.Now - GameLogic.Instance.Round.LastStateChange):n0}";
 			}

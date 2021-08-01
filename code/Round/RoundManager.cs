@@ -17,8 +17,6 @@ namespace deathrun.Round
 				new ActiveState(),
 				new OverState()
 			};
-
-			_currentRoundState = _roundStates[0];
 		}
 
 		[Net]

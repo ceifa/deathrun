@@ -38,7 +38,6 @@ namespace deathrun.Round
 			var alive = players.Where( p => p.LifeState == LifeState.Alive ).ToArray();
 			if ( alive.All( p => p.IsDeath ) || alive.All( p => !p.IsDeath ) )
 			{
-				Log.Info( string.Concat(alive.Select( p => p.IsDeath )) );
 				GameLogic.Instance.Round.Switch( RoundState.Over );
 				return;
 			}
