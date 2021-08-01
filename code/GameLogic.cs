@@ -1,6 +1,7 @@
 ﻿
 using deathrun;
 using Sandbox;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,11 +55,65 @@ namespace MinimalExample
 		/// <summary>
 		/// A client has joined the server. Make them a pawn to play with
 		/// </summary>
+		/// 
+
+		public virtual void MoveToDeath( Entity pawn )
+		{
+			var spawnpoint = Entity.All
+									.OfType<SpawnPointTerrorist>()               // get all SpawnPoint entities
+									.OrderBy( x => Guid.NewGuid() )     // order them by random
+									.FirstOrDefault();                  // take the first one
+
+			if ( spawnpoint == null )
+			{
+				Log.Warning( $"Couldn't find spawnpoint for {pawn}!" );
+				return;
+			}
+
+			if ( pawn != null )
+			{
+				pawn.Transform = spawnpoint.Transform;
+			}
+			else
+			{
+				Log.Info( spawnpoint.Transform.Position );
+			}
+
+		}
+
+		public virtual void MoveToRunner( Entity pawn )
+		{
+			var spawnpoint = Entity.All
+									.OfType<SpawnPointCounterTerrorist>()               // get all SpawnPoint entities
+									.OrderBy( x => Guid.NewGuid() )     // order them by random
+									.FirstOrDefault();                  // take the first one
+
+			if ( spawnpoint == null )
+			{
+				Log.Warning( $"Couldn't find spawnpoint for {pawn}!" );
+				return;
+			}
+
+			if ( pawn != null )
+			{
+				pawn.Transform = spawnpoint.Transform;
+			} else
+			{
+				Log.Info( spawnpoint.Transform.Position );
+			}
+
+
+		}
+
 		public override void ClientJoined( Client client )
 		{
 			base.ClientJoined( client );
 
+			MoveToRunner(null);
+			MoveToDeath( null );
+
 			var player = new MinimalPlayer();
+			
 			client.Pawn = player;
 
 			if ( All.OfType<Player>().Count() >= 2 && Round.CurrentState == RoundState.WaitingPlayers )

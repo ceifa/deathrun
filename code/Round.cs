@@ -1,4 +1,7 @@
-﻿using Sandbox;
+﻿using MinimalExample;
+using Sandbox;
+using System;
+using System.Linq;
 
 namespace deathrun
 {
@@ -17,6 +20,23 @@ namespace deathrun
 		{
 			CurrentState = roundState;
 			LastStateChange = Time.Now;
+			if (CurrentState == RoundState.Preparation)
+			{
+
+				var players = Player.All.OrderBy( x => Guid.NewGuid() );
+				var player = players.First();
+
+				GameLogic.Instance.MoveToDeath( player );
+				var runners = players.Skip ( 1 );
+
+				foreach ( var item in runners )
+				{
+					GameLogic.Instance.MoveToRunner( item );
+				}
+
+
+
+			}
 		}
 	}
 }
