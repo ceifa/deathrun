@@ -23,7 +23,8 @@ namespace deathrun
 			if (CurrentState == RoundState.Preparation)
 			{
 
-				var players = Player.All.OrderBy( x => Guid.NewGuid() );
+				// [BUGGED] var players = Player.All.OrderBy( x => Guid.NewGuid() );
+				var players = Entity.All.OfType<Player>().OrderBy( x => Guid.NewGuid() ); 
 				var player = players.First();
 
 				GameLogic.Instance.MoveToDeath( player );
