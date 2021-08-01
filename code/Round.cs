@@ -22,10 +22,10 @@ namespace deathrun
 			LastStateChange = Time.Now;
 			if (CurrentState == RoundState.Preparation)
 			{
-
-				// [BUGGED] var players = Player.All.OrderBy( x => Guid.NewGuid() );
-				var players = Entity.All.OfType<Player>().OrderBy( x => Guid.NewGuid() ); 
+				
+				var players = Entity.All.OfType<MinimalPlayer>().OrderBy( x => Guid.NewGuid() ); 
 				var player = players.First();
+				player.IsDeath = true;
 
 				GameLogic.Instance.MoveToDeath( player );
 				var runners = players.Skip ( 1 );
@@ -34,9 +34,6 @@ namespace deathrun
 				{
 					GameLogic.Instance.MoveToRunner( item );
 				}
-
-
-
 			}
 		}
 	}

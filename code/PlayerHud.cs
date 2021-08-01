@@ -36,13 +36,15 @@ namespace deathrun
 
 		private readonly Label RoundStateText;
 		private readonly Label RoundTimeText;
+		private readonly Panel TeamGroup;
+		private readonly Label TeamText;
 
 		public PlayerHud()
 		{
 			_hudParts = new List<PlayerHudPart>( 3 );
 
-			var teamGroup = Add.Panel( "team" );
-			teamGroup.Add.Label( "Runners", "text" );
+			TeamGroup = Add.Panel( "team" );
+			TeamText = TeamGroup.Add.Label( "", "text" );
 
 			var roundState = Add.Panel( "round-state" );
 			RoundStateText = roundState.Add.Label( "", "text" );
@@ -58,13 +60,16 @@ namespace deathrun
 				}
 
 				return 0;
-			}, Round.RoundTime);
+			}, Round.RoundTime, f => TimeSpan.FromSeconds( f ).ToString(@"%m\:%s\.%f"));
 		}
 
 		public override void Tick()
 		{
-			var player = Local.Pawn;
-			if ( player == null ) return;
+			if ( !(Local.Pawn is MinimalPlayer player) ) return;
+
+			var teamname = player.IsDeath ? "death" : "runner";
+			TeamGroup.Classes = "team " + teamname;
+			TeamText.Text = teamname;
 
 			RoundStateText.Text = GameLogic.Instance.Round.CurrentState switch
 			{

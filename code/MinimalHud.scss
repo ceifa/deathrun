@@ -22,11 +22,18 @@ PlayerHud {
 	width: 300px;
 
 	.team {
-		background-color: rgb(58, 137, 201);
 		width: 100%;
 		padding: 5px;
 		justify-content: center;
 		text-transform: uppercase;
+
+		&.runner {
+			background-color: rgb(58, 137, 201);
+		}
+
+		&.death {
+			background-color: rgb(255, 68, 80);
+		}
 	}
 
 	.round-state {

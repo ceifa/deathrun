@@ -1,12 +1,13 @@
-﻿using Sandbox;
-using System;
-using System.Linq;
-using deathrun;
+﻿using deathrun;
+using Sandbox;
 
 namespace MinimalExample
 {
 	partial class MinimalPlayer : Player
 	{
+		[Net]
+		public bool IsDeath { get; set; }
+
 		public override void Respawn()
 		{
 			SetModel( "models/citizen/citizen.vmdl" );
@@ -25,6 +26,8 @@ namespace MinimalExample
 			// Use ThirdPersonCamera (you can make your own Camera for 100% control)
 			//
 			Camera = new FirstPersonCamera();
+
+			Inventory = new BaseInventory( this );
 
 			EnableAllCollisions = true;
 			EnableDrawing = true;
@@ -52,12 +55,12 @@ namespace MinimalExample
 			//
 			if ( IsServer && Input.Pressed( InputButton.Attack1 ) )
 			{
-				var ragdoll = new ModelEntity();
-				ragdoll.SetModel( "models/citizen/citizen.vmdl" );  
-				ragdoll.Position = EyePos + EyeRot.Forward * 40;
-				ragdoll.Rotation = Rotation.LookAt( Vector3.Random.Normal );
-				ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-				ragdoll.PhysicsGroup.Velocity = EyeRot.Forward * 1000;
+				//var ragdoll = new ModelEntity();
+				//ragdoll.SetModel( "models/citizen/citizen.vmdl" );  
+				//ragdoll.Position = EyePos + EyeRot.Forward * 40;
+				//ragdoll.Rotation = Rotation.LookAt( Vector3.Random.Normal );
+				//ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+				//ragdoll.PhysicsGroup.Velocity = EyeRot.Forward * 1000;
 			}
 		}
 

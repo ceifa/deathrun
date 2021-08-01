@@ -109,9 +109,6 @@ namespace MinimalExample
 		{
 			base.ClientJoined( client );
 
-			MoveToRunner(null);
-			MoveToDeath( null );
-
 			var player = new MinimalPlayer();
 			
 			client.Pawn = player;
@@ -153,6 +150,46 @@ namespace MinimalExample
 					{
 						Round.SetState( RoundState.Preparation );
 					}
+				}
+			}
+		}
+
+		public override void OnKilled( Client client, Entity pawn )
+		{
+			base.OnKilled( client, pawn );
+
+			if ( Round.CurrentState == RoundState.Active )
+			{
+				var alives = All.OfType<MinimalPlayer>().Where( p => p.LifeState == LifeState.Alive );
+				// there are no deaths anymore
+				if ( !alives.Any( p => p.IsDeath ) )
+				{
+					Round.SetState( RoundState.Over);
+				}
+				//no runners
+				else if ( !alives.Any( p => !p.IsDeath ) )
+				{
+					Round.SetState(RoundState.Over);
+				}
+			}
+		}
+
+		public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+		{
+			base.ClientDisconnect( cl, reason );
+			
+			if ( Round.CurrentState == RoundState.Active )
+			{
+				var alives = All.OfType<MinimalPlayer>().Where( p => p.LifeState == LifeState.Alive );
+				// there are no deaths anymore
+				if ( !alives.Any( p => p.IsDeath ) )
+				{
+					Round.SetState( RoundState.Over);
+				}
+				//no runners
+				else if ( !alives.Any( p => !p.IsDeath ) )
+				{
+					Round.SetState(RoundState.Over);
 				}
 			}
 		}
