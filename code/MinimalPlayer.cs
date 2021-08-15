@@ -62,6 +62,22 @@ namespace MinimalExample
 				//ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 				//ragdoll.PhysicsGroup.Velocity = EyeRot.Forward * 1000;
 			}
+			if ( IsServer && Input.Pressed( InputButton.Slot0 ) )
+			{
+				ViewModeToogle( cl );
+			}
+		}
+
+		public static void ViewModeToogle(Client cl)
+		{
+			if ( cl.Pawn.Camera is not FirstPersonCamera )
+			{
+				cl.Pawn.Camera = new FirstPersonCamera();
+			}
+			else
+			{
+				cl.Pawn.Camera = new ThirdPersonCamera();
+			}
 		}
 
 		public override void OnKilled()
