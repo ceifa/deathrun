@@ -1,3 +1,4 @@
 # CHECKOUT ALL FILES WITH LF LINE ENDINGS
 * text eol=lf
 *.wav binary
+*.vsnd_c binary
