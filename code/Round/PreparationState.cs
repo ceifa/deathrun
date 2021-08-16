@@ -18,6 +18,8 @@ namespace deathrun.Round
 
 			GameLogic.Instance.MoveToDeath( players[0] );
 
+			Sound.FromScreen("roundstart");
+
 			foreach ( var item in players[1..] )
 			{
 				item.IsDeath = false;
