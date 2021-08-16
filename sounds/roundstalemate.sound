@@ -11,9 +11,9 @@
 		Sounds = 
 		[
 			"sounds/alert2.vsnd",
-			"sounds/sound_ambient_misc_flush1.vsnd",
-			"sounds/sound_ambient_animal_dog_med_inside_bark_2.vsnd",
 			"sounds/sound_ambient_animal_cow.vsnd",
+			"sounds/sound_ambient_animal_dog_med_inside_bark_2.vsnd",
+			"sounds/sound_ambient_misc_flush1.vsnd",
 		]
 	}
 }
