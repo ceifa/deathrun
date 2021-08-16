@@ -32,6 +32,7 @@ namespace deathrun.Round
 			if ( Time.Now - GameLogic.Instance.Round.LastStateChange > RoundTime )
 			{
 				GameLogic.Instance.Round.Switch( RoundState.Over );
+				Sound.FromScreen( "roundstalemate" );
 				return;
 			}
 
@@ -39,6 +40,7 @@ namespace deathrun.Round
 			if ( alive.All( p => p.IsDeath ) || alive.All( p => !p.IsDeath ) )
 			{
 				GameLogic.Instance.Round.Switch( RoundState.Over );
+				Sound.FromScreen( "roundwin" );
 				return;
 			}
 		}
