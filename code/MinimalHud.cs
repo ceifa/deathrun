@@ -21,7 +21,7 @@ namespace MinimalExample
 				RootPanel.AddChild<CrosshairCanvas>();
 				RootPanel.AddChild<ChatBox>();
 				RootPanel.AddChild<VoiceList>();
-				RootPanel.AddChild<KillFeed>();
+				RootPanel.AddChild<DeathrunKillFeed>();
 				RootPanel.AddChild<Scoreboard<ScoreboardEntry>>();
 				RootPanel.AddChild<PlayerHud>();
 			}
