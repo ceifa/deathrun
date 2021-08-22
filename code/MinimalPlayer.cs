@@ -43,6 +43,7 @@ namespace MinimalExample
 		public override void Simulate( Client cl )
 		{
 			base.Simulate( cl );
+			TickPlayerUse();
 
 			//
 			// If you have active children (like a weapon etc) you should call this to 
