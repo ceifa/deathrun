@@ -1,3 +1,13 @@
 {
-	"sharedassets": "*.*"
+  "Title": "Deathrun Neue",
+  "Type": "game",
+  "Org": "lory",
+  "Ident": "deathrun",
+  "Schema": 1,
+  "HasAssets": false,
+  "AssetsPath": null,
+  "ResourcePaths": null,
+  "HasCode": true,
+  "CodePath": "code",
+  "RootNamespace": "deathrun"
 }

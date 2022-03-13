@@ -25,7 +25,7 @@ namespace MinimalExample
 			//
 			// Use ThirdPersonCamera (you can make your own Camera for 100% control)
 			//
-			Camera = new FirstPersonCamera();
+			CameraMode = new FirstPersonCamera();
 
 			Inventory = new BaseInventory( this );
 
@@ -69,15 +69,21 @@ namespace MinimalExample
 			}
 		}
 
-		public static void ViewModeToogle(Client cl)
+		public static void ViewModeToogle( Client cl )
 		{
-			if ( cl.Pawn.Camera is not FirstPersonCamera )
+			var player = cl.Pawn as Player;
+
+			if ( player != null )
 			{
-				cl.Pawn.Camera = new FirstPersonCamera();
-			}
-			else
-			{
-				cl.Pawn.Camera = new ThirdPersonCamera();
+				if ( player.CameraMode is not FirstPersonCamera )
+				{
+					player.CameraMode = new FirstPersonCamera();
+				}
+				else
+				{
+					player.CameraMode = new ThirdPersonCamera();
+				}
+
 			}
 		}
 

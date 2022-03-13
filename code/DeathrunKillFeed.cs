@@ -1,9 +1,5 @@
 ﻿using Sandbox.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace deathrun
 {
@@ -13,7 +9,8 @@ namespace deathrun
 		{
 
 		}
-		String[] killtypes = new[]
+
+		private readonly string[] killtypes = new[]
 		{
 			"Covid19",
 			"Natural causes",
@@ -29,11 +26,9 @@ namespace deathrun
 			"A saxophone solo"
 		};
 
-		public override Panel AddEntry( ulong lsteamid, string left, ulong rsteamid, string right, string method )
+		public override Panel AddEntry( long lsteamid, string left, long rsteamid, string right, string method )
 		{
 			return base.AddEntry( lsteamid, killtypes[new Random().Next( killtypes.Length )], rsteamid, right, method );
 		}
 	}
 }
-
-// killtypes[new Random().Next( killtypes.Length )]

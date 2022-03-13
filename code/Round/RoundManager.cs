@@ -3,7 +3,7 @@ using Sandbox;
 
 namespace deathrun.Round
 {
-	public partial class RoundManager : NetworkComponent
+	public partial class RoundManager : BaseNetworkable
 	{
 		private readonly IRoundState[] _roundStates;
 		private IRoundState _currentRoundState;

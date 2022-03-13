@@ -1,6 +1,4 @@
-﻿
-using deathrun;
-using Sandbox;
+﻿using Sandbox;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,12 +21,10 @@ namespace deathrun
 	/// Your game needs to be registered (using [Library] here) with the same name 
 	/// as your game addon. If it isn't then we won't be able to find it.
 	/// </summary>
-	[Library( "deathrun" )]
-	public partial class GameLogic : Sandbox.Game
+	public partial class GameLogic : Game
 	{
 		public static GameLogic Instance => Current as GameLogic;
 
-		[Net]
 		public RoundManager Round { get; set; }
 
 		public GameLogic()

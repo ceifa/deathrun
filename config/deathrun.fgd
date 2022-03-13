@@ -1,17 +1,30 @@
-// 
-// deathrun.GameLogic : Sandbox.Game 
-// 
-@PointClass = deathrun : "This is your game class. This is an entity that is created serverside when the game starts, and is replicated to the client.   You can use this to create things like HUDs and declare which player class to use for spawned players.  Your game needs to be registered (using [Library] here) with the same name  as your game addon. If it isn't then we won't be able to find it."
+
+@BaseClass = BaseProperties_deathrun
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	parentAttachmentName(parentAttachment) [ group="Hierarchy" ] : "Parent Model Bone/Attachment Name" : : "The name of the bone or attachment to attach to on the entity's parent in the movement hierarchy. Use !bonemerge to use bone-merge style attachment."
+
+	useLocalOffset(boolean) [ group="Hierarchy" ] : "Use Model Attachment offsets" : 0 : "Whether to respect the specified local offset when doing the initial hierarchical attachment to its parent."
+	local.origin(vector) [ group="Hierarchy" ] : "Model Attachment position offset" : : "Offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.angles(angle) [ group="Hierarchy" ] : "Model Attachment angular offset" : : "Angular offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.scales(vector) [ group="Hierarchy" ] : "Model Attachment scale" : : "Scale in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	tags(tags) : "Tags" : "" : "A list of general purpose tags for this entity, for interactions with other entities such as triggers."
 ]
 
-// 
-// deathrun.SpawnPointTerrorist : Sandbox.Entity 
-// 
-@PointClass editormodel( "models/editor/playerstart.vmdl" ) 
+//
+// deathrun.GameLogic
+//
+@PointClass base(BaseProperties_deathrun) = deathrun : "This is your game class. This is an entity that is created serverside when the game starts, and is replicated to the client.   You can use this to create things like HUDs and declare which player class to use for spawned players.  Your game needs to be registered (using [Library] here) with the same name  as your game addon. If it isn't then we won't be able to find it."
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
+//
+// deathrun.SpawnPointTerrorist
+//
+@PointClass base(BaseProperties_deathrun) editormodel( "models/editor/playerstart.vmdl" ) 
 metadata
 {
 	entity_tool_name = "Player Terrorist / Death Spawnpoint"
@@ -20,15 +33,13 @@ metadata
 }
 = info_player_terrorist : "This entity defines the sppawn point of the player in first person shooter gamemodes."
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
-// 
-// deathrun.SpawnPointCounterTerrorist : Sandbox.Entity 
-// 
-@PointClass editormodel( "models/editor/playerstart.vmdl" ) 
+//
+// deathrun.SpawnPointCounterTerrorist
+//
+@PointClass base(BaseProperties_deathrun) editormodel( "models/editor/playerstart.vmdl" ) 
 metadata
 {
 	entity_tool_name = "Player CounterTerrorist / Runner Spawnpoint"
@@ -37,26 +48,22 @@ metadata
 }
 = info_player_counterterrorist : ""
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
-// 
-// deathrun.TriggerPushFix : Sandbox.BaseTrigger 
-// 
-@SolidClass 
+//
+// deathrun.TriggerPushFix
+//
+@SolidClass base(BaseProperties_deathrun) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
 = trigger_push_fix : ""
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
-	filtername(filterclass) : "Filtername" :  : "TODO: Filter to use to see if activator triggers me. See filter_activator_name for more explanation."
-	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 	spawnflags(flags) = [
 		1 : "Clients" : 1
 		2 : "Npcs" : 0
@@ -80,22 +87,20 @@ metadata
 	output OnEndTouchAll(void) : "Fired when all entities touching this trigger have stopped touching it."
 ]
 
-// 
-// deathrun.TriggerRoundGoal : Sandbox.BaseTrigger 
-// 
-@SolidClass 
+//
+// deathrun.TriggerRoundGoal
+//
+@SolidClass base(BaseProperties_deathrun) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
 = trigger_roundgoal : ""
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	wait(float) : "Delay before reset" : 1 : "Amount of time, in seconds, after the trigger_multiple has triggered before it can be triggered again. If set to -1, it will never trigger again (in which case you should just use a trigger_once). This affects OnTrigger output."
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
-	filtername(filterclass) : "Filtername" :  : "TODO: Filter to use to see if activator triggers me. See filter_activator_name for more explanation."
-	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 	spawnflags(flags) = [
 		1 : "Clients" : 1
 		2 : "Npcs" : 0
