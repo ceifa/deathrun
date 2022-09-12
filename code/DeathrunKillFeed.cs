@@ -1,16 +1,20 @@
-﻿using Sandbox.UI;
+﻿using Sandbox;
+using Sandbox.UI;
 using System;
 
 namespace deathrun
 {
-	public partial class DeathrunKillFeed : KillFeed
+	public partial class DeathrunKillFeed : Panel
 	{
-		public DeathrunKillFeed():base()
-		{
+		private static DeathrunKillFeed Current;
 
+		public DeathrunKillFeed() : base()
+		{
+			Current = this;
+			StyleSheet.Load( "KillFeed.scss" );
 		}
 
-		private readonly string[] killtypes = new[]
+		private static readonly string[] killtypes = new[]
 		{
 			"Covid19",
 			"Natural causes",
@@ -26,9 +30,24 @@ namespace deathrun
 			"A saxophone solo"
 		};
 
-		public override Panel AddEntry( long lsteamid, string left, long rsteamid, string right, string method )
+		public virtual Panel AddEntry( long lsteamid, string left, long rsteamid, string right, string method )
 		{
-			return base.AddEntry( lsteamid, killtypes[new Random().Next( killtypes.Length )], rsteamid, right, method );
+			var e = Current.AddChild<KillFeedEntry>();
+
+			e.Left.Text = left;
+			e.Left.SetClass( "me", lsteamid == (Local.Client?.PlayerId) );
+
+			e.Method.Text = method;
+
+			e.Right.Text = right;
+			e.Right.SetClass( "me", rsteamid == (Local.Client?.PlayerId) );
+
+			return e;
+		}
+
+		public static void Add( long lsteamid, long rsteamid, string right, string method )
+		{
+			Current.AddEntry( lsteamid, killtypes[new Random().Next( killtypes.Length )], rsteamid, right, method );
 		}
 	}
 }

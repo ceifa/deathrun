@@ -1,11 +1,13 @@
 ﻿
 using Sandbox;
+using SandboxEditor;
 
 namespace deathrun
 {
-
+	[HammerEntity]
 	[Library( "trigger_roundgoal" )]
-	[Hammer.Solid]
+	[Solid]
+	[Title("Map finish goal")]
 	public partial class TriggerRoundGoal : BaseTrigger
 	{
 
@@ -47,8 +49,6 @@ namespace deathrun
 			TimeSinceTriggered = 0;
 			OnTriggered( other );
 		}
-
-
 
 		public override void OnTouchStart( Entity toucher )
 		{

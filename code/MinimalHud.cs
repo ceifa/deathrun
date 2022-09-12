@@ -17,8 +17,8 @@ namespace MinimalExample
 			if ( IsClient )
 			{
 				RootPanel.SetTemplate( "/MinimalHud.html" );
-				RootPanel.AddChild<NameTags>();
-				RootPanel.AddChild<CrosshairCanvas>();
+				//RootPanel.AddChild<NameTags>();
+				//RootPanel.AddChild<CrosshairCanvas>();
 				RootPanel.AddChild<ChatBox>();
 				RootPanel.AddChild<VoiceList>();
 				RootPanel.AddChild<DeathrunKillFeed>();
